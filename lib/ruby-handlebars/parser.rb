@@ -39,6 +39,8 @@ module Handlebars
     rule(:unsafe_replacement) { docurly >> space? >> path.as(:replaced_unsafe_item) >> space? >> dccurly }
     rule(:safe_replacement) { tocurly >> space? >> path.as(:replaced_safe_item) >> space? >> tccurly }
 
+    rule(:number)      { (match('\d').repeat(1) >> str('.').maybe >> match('\d').repeat).as(:num_content) }
+
     rule(:sq_string)   { match("'") >> match("[^']").repeat.maybe.as(:str_content) >> match("'") }
     rule(:dq_string)   { match('"') >> match('[^"]').repeat.maybe.as(:str_content) >> match('"') }
     rule(:string)      { sq_string | dq_string }
@@ -46,7 +48,7 @@ module Handlebars
     rule(:parameter)   {
       (as_kw >> space? >> pipe).absent? >>
       (
-        (path | string).as(:parameter_name) |
+        (number | path | string).as(:parameter_name) |
         (str('(') >> space? >> identifier.as(:safe_helper_name) >> (space? >> parameters.as(:parameters)).maybe >> space? >> str(')'))
       )
     }

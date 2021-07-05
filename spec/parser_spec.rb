@@ -140,6 +140,28 @@ describe Handlebars::Parser do
         })
       end
 
+      it 'with integer parameter' do
+        expect(parser.parse('{{ formatNumber 99}}')).to eq({
+           block_items: [
+             {
+               unsafe_helper_name: 'formatNumber',
+               parameters: {parameter_name: {num_content: '99'}},
+             }
+           ]
+         })
+      end
+
+      it 'with float parameter' do
+        expect(parser.parse('{{ formatNumber 99.999}}')).to eq({
+           block_items: [
+             {
+               unsafe_helper_name: 'formatNumber',
+               parameters: {parameter_name: {num_content: '99.999'}},
+             }
+           ]
+         })
+      end
+
       it 'with multiple parameters' do
         expect(parser.parse('{{ concat plic ploc plouf }}')).to eq({
           block_items: [

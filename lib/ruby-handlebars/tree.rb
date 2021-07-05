@@ -34,6 +34,12 @@ module Handlebars
       end
     end
 
+    class Number < TreeItem.new(:content)
+      def _eval(context)
+        return Float(content)
+      end
+    end
+
     class Parameter < TreeItem.new(:name)
       def _eval(context)
         if name.is_a?(Parslet::Slice)
