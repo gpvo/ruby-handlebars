@@ -111,6 +111,7 @@ module Handlebars
     rule(replaced_unsafe_item: simple(:item)) {Tree::EscapedReplacement.new(item)}
     rule(replaced_safe_item: simple(:item)) {Tree::Replacement.new(item)}
     rule(str_content: simple(:content)) {Tree::String.new(content)}
+    rule(num_content: simple(:content)) {Tree::Number.new(content)}
     rule(parameter_name: simple(:name)) {Tree::Parameter.new(name)}
 
     rule(
