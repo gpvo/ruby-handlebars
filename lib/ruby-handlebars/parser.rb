@@ -1,6 +1,6 @@
 require 'parslet'
 
-module Handlebars
+module RubyHandlebars
   class Parser < Parslet::Parser
     rule(:space)       { match('\s').repeat(1) }
     rule(:space?)      { space.maybe }

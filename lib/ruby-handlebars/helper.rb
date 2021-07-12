@@ -1,6 +1,6 @@
 require_relative 'tree'
 
-module Handlebars
+module RubyHandlebars
   class Helper
     def initialize(hbs, fn)
       @hbs = hbs

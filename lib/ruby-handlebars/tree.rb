@@ -1,4 +1,4 @@
-module Handlebars
+module RubyHandlebars
   module Tree
     class TreeItem < Struct
       def eval(context)

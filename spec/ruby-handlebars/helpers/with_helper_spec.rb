@@ -5,9 +5,9 @@ require_relative '../../../lib/ruby-handlebars'
 require_relative '../../../lib/ruby-handlebars/tree'
 require_relative '../../../lib/ruby-handlebars/helpers/with_helper'
 
-describe Handlebars::Helpers::WithHelper do
-  let(:subject) { Handlebars::Helpers::WithHelper }
-  let(:hbs) { Handlebars::Handlebars.new }
+describe RubyHandlebars::Helpers::WithHelper do
+  let(:subject) { RubyHandlebars::Helpers::WithHelper }
+  let(:hbs) { RubyHandlebars::Handlebars.new }
 
   it_behaves_like "a registerable helper", "with"
 

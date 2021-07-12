@@ -1,6 +1,6 @@
 require_relative 'context'
 
-module Handlebars
+module RubyHandlebars
   class Template
     def initialize(hbs, ast)
       @hbs = hbs

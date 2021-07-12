@@ -1,4 +1,4 @@
-module Handlebars
+module RubyHandlebars
   class Context
     def initialize(hbs, data)
       @hbs = hbs

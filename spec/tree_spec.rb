@@ -3,9 +3,9 @@ require_relative '../lib/ruby-handlebars/parser'
 require_relative '../lib/ruby-handlebars/tree'
 
 
-describe Handlebars::Transform do
-  let(:parser) {Handlebars::Parser.new}
-  let(:transform) {Handlebars::Transform.new}
+describe RubyHandlebars::Transform do
+  let(:parser) {RubyHandlebars::Parser.new}
+  let(:transform) {RubyHandlebars::Transform.new}
 
   def get_ast(content)
     transform.apply(parser.parse(content))

@@ -4,15 +4,15 @@ require_relative '../../../lib/ruby-handlebars'
 require_relative '../../../lib/ruby-handlebars/helpers/register_default_helpers'
 
 
-describe Handlebars::Helpers do
+describe RubyHandlebars::Helpers do
   context '.register_default_helpers' do
     it 'registers the default helpers' do
-      hbs = double(Handlebars::Handlebars)
+      hbs = double(RubyHandlebars::Handlebars)
       allow(hbs).to receive(:register_helper)
       allow(hbs).to receive(:register_as_helper)
 
 
-      Handlebars::Helpers.register_default_helpers(hbs)
+      RubyHandlebars::Helpers.register_default_helpers(hbs)
 
       expect(hbs)
         .to have_received(:register_helper)

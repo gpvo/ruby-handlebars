@@ -1,8 +1,8 @@
 require_relative 'spec_helper'
 require_relative '../lib/ruby-handlebars/parser'
 
-describe Handlebars::Parser do
-  let(:parser) {Handlebars::Parser.new}
+describe RubyHandlebars::Parser do
+  let(:parser) {RubyHandlebars::Parser.new}
 
   context 'recognizes' do
     it 'simple templates' do

@@ -1,6 +1,6 @@
 require_relative 'default_helper'
 
-module Handlebars
+module RubyHandlebars
   module Helpers
     class WithHelper < DefaultHelper
       def self.registry_name

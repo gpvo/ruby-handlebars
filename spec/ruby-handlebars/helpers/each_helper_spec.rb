@@ -6,17 +6,17 @@ require_relative '../../../lib/ruby-handlebars/tree'
 require_relative '../../../lib/ruby-handlebars/helpers/each_helper'
 
 
-describe Handlebars::Helpers::EachHelper do
-  let(:subject) { Handlebars::Helpers::EachHelper }
-  let(:hbs) {Handlebars::Handlebars.new}
-  let(:ctx) {Handlebars::Context.new(hbs, {})}
+describe RubyHandlebars::Helpers::EachHelper do
+  let(:subject) { RubyHandlebars::Helpers::EachHelper }
+  let(:hbs) {RubyHandlebars::Handlebars.new}
+  let(:ctx) {RubyHandlebars::Context.new(hbs, {})}
 
   it_behaves_like "a registerable helper", "each"
 
   context '.apply' do
     include_context "shared apply helper"
 
-    let(:values) { [Handlebars::Tree::String.new('a'), Handlebars::Tree::String.new('b'), Handlebars::Tree::String.new('c') ]}
+    let(:values) { [RubyHandlebars::Tree::String.new('a'), RubyHandlebars::Tree::String.new('b'), RubyHandlebars::Tree::String.new('c') ]}
 
     it 'applies the block on all values' do
       subject.apply(ctx, values, block, else_block)

@@ -1,4 +1,4 @@
-module Handlebars
+module RubyHandlebars
   module Helpers
     class DefaultHelper
       def self.register(hbs)

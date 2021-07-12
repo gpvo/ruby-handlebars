@@ -6,18 +6,18 @@ require_relative '../../../lib/ruby-handlebars/tree'
 require_relative '../../../lib/ruby-handlebars/helpers/helper_missing_helper'
 
 
-describe Handlebars::Helpers::HelperMissingHelper do
-  let(:subject) { Handlebars::Helpers::HelperMissingHelper }
-  let(:hbs) { Handlebars::Handlebars.new }
-  let(:ctx) {Handlebars::Context.new(hbs, {})}
+describe RubyHandlebars::Helpers::HelperMissingHelper do
+  let(:subject) { RubyHandlebars::Helpers::HelperMissingHelper }
+  let(:hbs) { RubyHandlebars::Handlebars.new }
+  let(:ctx) {RubyHandlebars::Context.new(hbs, {})}
 
   it_behaves_like "a registerable helper", "helperMissing"
 
   context '.apply' do
     let(:name) { "missing_helper" }
 
-    it 'raises a Handlebars::UnknownHelper exception with the name given as a parameter' do
-      expect { subject.apply(ctx, name, nil, nil) }.to raise_exception(Handlebars::UnknownHelper, "Helper \"#{name}\" does not exist")
+    it 'raises a RubyHandlebars::UnknownHelper exception with the name given as a parameter' do
+      expect { subject.apply(ctx, name, nil, nil) }.to raise_exception(RubyHandlebars::UnknownHelper, "Helper \"#{name}\" does not exist")
     end
   end
 
@@ -26,11 +26,11 @@ describe Handlebars::Helpers::HelperMissingHelper do
 
     context 'is called when an unknown helper is called in a template' do
       it 'should provide a useful error message with inline helpers' do
-        expect { evaluate('{{unknown "This will hardly work" }}') }.to raise_exception(Handlebars::UnknownHelper, 'Helper "unknown" does not exist')
+        expect { evaluate('{{unknown "This will hardly work" }}') }.to raise_exception(RubyHandlebars::UnknownHelper, 'Helper "unknown" does not exist')
       end
 
       it 'should provide a useful error message with block helpers' do
-        expect { evaluate('{{#unknown}}This will hardly work{{/unknown}}') }.to raise_exception(Handlebars::UnknownHelper, 'Helper "unknown" does not exist')
+        expect { evaluate('{{#unknown}}This will hardly work{{/unknown}}') }.to raise_exception(RubyHandlebars::UnknownHelper, 'Helper "unknown" does not exist')
       end
     end
 

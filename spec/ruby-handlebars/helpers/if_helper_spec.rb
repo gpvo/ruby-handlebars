@@ -5,10 +5,10 @@ require_relative '../../../lib/ruby-handlebars'
 require_relative '../../../lib/ruby-handlebars/helpers/if_helper'
 
 
-describe Handlebars::Helpers::IfHelper do
-  let(:subject) { Handlebars::Helpers::IfHelper }
-  let(:hbs) {Handlebars::Handlebars.new}
-  let(:ctx) {Handlebars::Context.new(hbs, {})}
+describe RubyHandlebars::Helpers::IfHelper do
+  let(:subject) { RubyHandlebars::Helpers::IfHelper }
+  let(:hbs) {RubyHandlebars::Handlebars.new}
+  let(:ctx) {RubyHandlebars::Context.new(hbs, {})}
 
   it_behaves_like "a registerable helper", "if"
 

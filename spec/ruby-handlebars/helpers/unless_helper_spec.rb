@@ -5,10 +5,10 @@ require_relative '../../../lib/ruby-handlebars'
 require_relative '../../../lib/ruby-handlebars/helpers/unless_helper'
 
 
-describe Handlebars::Helpers::UnlessHelper do
-  let(:subject) { Handlebars::Helpers::UnlessHelper }
-  let(:hbs) {Handlebars::Handlebars.new}
-  let(:ctx) {Handlebars::Context.new(hbs, {})}
+describe RubyHandlebars::Helpers::UnlessHelper do
+  let(:subject) { RubyHandlebars::Helpers::UnlessHelper }
+  let(:hbs) {RubyHandlebars::Handlebars.new}
+  let(:ctx) {RubyHandlebars::Context.new(hbs, {})}
 
   it_behaves_like "a registerable helper", "unless"
 

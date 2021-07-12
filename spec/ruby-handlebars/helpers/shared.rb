@@ -1,7 +1,7 @@
 shared_context "shared apply helper" do
   # Use to test which blocks are called based on the params values.
-  let(:block) { double(Handlebars::Tree::Block.new([])) }
-  let(:else_block) { double(Handlebars::Tree::Block.new([])) }
+  let(:block) { double(RubyHandlebars::Tree::Block.new([])) }
+  let(:else_block) { double(RubyHandlebars::Tree::Block.new([])) }
 
   before do
     allow(block).to receive(:fn)
@@ -10,7 +10,7 @@ shared_context "shared apply helper" do
 end
 
 shared_context "shared helpers integration tests" do
-  let(:hbs) {Handlebars::Handlebars.new}
+  let(:hbs) {RubyHandlebars::Handlebars.new}
 
   def evaluate(template, args = {})
     hbs.compile(template).call(args)
@@ -19,7 +19,7 @@ end
 
 shared_examples "a registerable helper" do |name|
   it "registers the \"#{name}\" helper" do
-    hbs = double(Handlebars::Handlebars)
+    hbs = double(RubyHandlebars::Handlebars)
     allow(hbs).to receive(:register_helper)
     allow(hbs).to receive(:register_as_helper)
 

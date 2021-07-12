@@ -1,6 +1,6 @@
 require_relative 'default_helper'
 
-module Handlebars
+module RubyHandlebars
   class UnknownHelper < StandardError
   end
 
@@ -11,7 +11,7 @@ module Handlebars
       end
 
       def self.apply(context, name, block, else_block)
-        raise(::Handlebars::UnknownHelper, "Helper \"#{name}\" does not exist" )
+        raise(::RubyHandlebars::UnknownHelper, "Helper \"#{name}\" does not exist" )
       end
     end
   end

@@ -4,7 +4,7 @@ require_relative 'if_helper'
 require_relative 'unless_helper'
 require_relative 'with_helper'
 
-module Handlebars
+module RubyHandlebars
   module Helpers
     def self.register_default_helpers(hbs)
       EachHelper.register(hbs)

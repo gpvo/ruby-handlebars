@@ -3,8 +3,8 @@ require_relative '../lib/ruby-handlebars'
 require_relative '../lib/ruby-handlebars/escapers/dummy_escaper'
 
 
-describe Handlebars::Handlebars do
-  let(:hbs) {Handlebars::Handlebars.new}
+describe RubyHandlebars::Handlebars do
+  let(:hbs) {RubyHandlebars::Handlebars.new}
 
   def evaluate(template, args = {})
     hbs.compile(template).call(args)
@@ -234,7 +234,7 @@ describe Handlebars::Handlebars do
     end
 
     context 'DummyEscaper' do
-      let(:escaper) { Handlebars::Escapers::DummyEscaper }
+      let(:escaper) { RubyHandlebars::Escapers::DummyEscaper }
 
       it 'escapes nothing' do
         expect(replacement_escaped).to eq('Hello <"\'>&')

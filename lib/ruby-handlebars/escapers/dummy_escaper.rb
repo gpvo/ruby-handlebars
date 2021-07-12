@@ -1,4 +1,4 @@
-module Handlebars
+module RubyHandlebars
   module Escapers
     class DummyEscaper
       def self.escape(value)
