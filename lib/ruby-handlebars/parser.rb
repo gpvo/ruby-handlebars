@@ -12,12 +12,13 @@ module RubyHandlebars
     rule(:ccurly)      { str('}')}
     rule(:pipe)        { str('|')}
     rule(:eq)          { str('=')}
+    rule(:tilde)       { str('~')}
 
 
-    rule(:docurly)     { ocurly >> ocurly }
-    rule(:dccurly)     { ccurly >> ccurly }
-    rule(:tocurly)     { ocurly >> ocurly >> ocurly }
-    rule(:tccurly)     { ccurly >> ccurly >> ccurly }
+    rule(:docurly)     { ocurly >> ocurly >> tilde.maybe }
+    rule(:dccurly)     { tilde.maybe >> ccurly >> ccurly }
+    rule(:tocurly)     { ocurly >> ocurly >> ocurly >> tilde.maybe }
+    rule(:tccurly)     { tilde.maybe >> ccurly >> ccurly >> ccurly }
 
     rule(:else_kw)     { str('else') }
     rule(:as_kw)       { str('as') }

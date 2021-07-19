@@ -37,6 +37,42 @@ describe RubyHandlebars::Parser do
           {replaced_unsafe_item: 'plic'}
         ]
       })
+
+      expect(parser.parse('{{~plic}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: 'plic'}
+        ]
+      })
+
+      expect(parser.parse('{{plic~}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: 'plic'}
+        ]
+      })
+
+      expect(parser.parse('{{~plic~}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: 'plic'}
+        ]
+      })
+
+      expect(parser.parse('{{~ plic~}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: 'plic'}
+        ]
+      })
+
+      expect(parser.parse('{{~plic ~}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: 'plic'}
+        ]
+      })
+
+      expect(parser.parse('{{~ plic ~}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: 'plic'}
+        ]
+      })
     end
 
     it 'special variables' do
@@ -55,6 +91,36 @@ describe RubyHandlebars::Parser do
           {replaced_unsafe_item: '@index'}
         ]
       })
+      expect(parser.parse('{{~@first}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: '@first'}
+        ]
+      })
+      expect(parser.parse('{{@first~}}')).to eq({
+        block_items: [
+          {replaced_unsafe_item: '@first'}
+        ]
+      })
+      expect(parser.parse('{{~@first~}}')).to eq({
+         block_items: [
+           {replaced_unsafe_item: '@first'}
+         ]
+       })
+      expect(parser.parse('{{~ @first~}}')).to eq({
+         block_items: [
+           {replaced_unsafe_item: '@first'}
+         ]
+       })
+      expect(parser.parse('{{~@first ~}}')).to eq({
+         block_items: [
+           {replaced_unsafe_item: '@first'}
+         ]
+       })
+      expect(parser.parse('{{~ @first ~}}')).to eq({
+         block_items: [
+           {replaced_unsafe_item: '@first'}
+         ]
+       })
     end
 
     it 'safe strings' do
@@ -82,11 +148,65 @@ describe RubyHandlebars::Parser do
         ]
       })
 
+      expect(parser.parse('{{{~plic}}}')).to eq({
+        block_items: [
+          {replaced_safe_item: 'plic'}
+        ]
+      })
+      expect(parser.parse('{{{plic~}}}')).to eq({
+        block_items: [
+          {replaced_safe_item: 'plic'}
+        ]
+      })
+      expect(parser.parse('{{{~plic~}}}')).to eq({
+        block_items: [
+          {replaced_safe_item: 'plic'}
+        ]
+      })
+      expect(parser.parse('{{{~ plic}}}')).to eq({
+        block_items: [
+          {replaced_safe_item: 'plic'}
+        ]
+      })
+      expect(parser.parse('{{{plic ~}}}')).to eq({
+        block_items: [
+          {replaced_safe_item: 'plic'}
+        ]
+      })
+      expect(parser.parse('{{{~ plic ~}}}')).to eq({
+        block_items: [
+          {replaced_safe_item: 'plic'}
+        ]
+      })
     end
 
     context 'helpers' do
       it 'simple' do
         expect(parser.parse('{{ capitalize plic }}')).to eq({
+          block_items: [
+            {
+              unsafe_helper_name: 'capitalize',
+              parameters: {parameter_name: 'plic'}
+            }
+          ]
+        })
+        expect(parser.parse('{{~ capitalize plic }}')).to eq({
+          block_items: [
+            {
+              unsafe_helper_name: 'capitalize',
+              parameters: {parameter_name: 'plic'}
+            }
+          ]
+        })
+        expect(parser.parse('{{ capitalize plic ~}}')).to eq({
+          block_items: [
+            {
+              unsafe_helper_name: 'capitalize',
+              parameters: {parameter_name: 'plic'}
+            }
+          ]
+        })
+        expect(parser.parse('{{~ capitalize plic }}')).to eq({
           block_items: [
             {
               unsafe_helper_name: 'capitalize',
@@ -188,10 +308,94 @@ describe RubyHandlebars::Parser do
             }
           ]
         })
+        expect(parser.parse('{{~#capitalize}}plic{{/capitalize}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'capitalize',
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#capitalize~}}plic{{/capitalize}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'capitalize',
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#capitalize}}plic{{~/capitalize}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'capitalize',
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#capitalize}}plic{{~/capitalize~}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'capitalize',
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
       end
 
       it 'block with parameters' do
         expect(parser.parse('{{#comment "#"}}plic{{/comment}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'comment',
+              parameters: {parameter_name: {str_content: '#'}},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{~#comment "#"}}plic{{/comment}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'comment',
+              parameters: {parameter_name: {str_content: '#'}},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#comment "#"~}}plic{{/comment}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'comment',
+              parameters: {parameter_name: {str_content: '#'}},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#comment "#"}}plic{{~/comment}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'comment',
+              parameters: {parameter_name: {str_content: '#'}},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#comment "#"}}plic{{/comment~}}')).to eq({
           block_items: [
             {
               helper_name: 'comment',
@@ -252,10 +456,88 @@ describe RubyHandlebars::Parser do
             }
           ]
         })
+        expect(parser.parse('{{~#each items as |item|}}plic{{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'items'},
+              as_parameters: {parameter_name: 'item'},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each items as |item|~}}plic{{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'items'},
+              as_parameters: {parameter_name: 'item'},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each items as |item|}}plic{{~/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'items'},
+              as_parameters: {parameter_name: 'item'},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each items as |item|}}plic{{/each~}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'items'},
+              as_parameters: {parameter_name: 'item'},
+              block_items: [
+                {template_content: 'plic'}
+              ]
+            }
+          ]
+        })
       end
 
       it 'supports the "else" statement' do
         expect(parser.parse('{{#each items as |item|}}plic{{else}}Hummm, empty{{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'items'},
+              as_parameters: {parameter_name: 'item'},
+              block_items: [
+                {template_content: 'plic'}
+              ],
+              else_block_items: [
+                {template_content: 'Hummm, empty'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each items as |item|}}plic{{~else}}Hummm, empty{{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'items'},
+              as_parameters: {parameter_name: 'item'},
+              block_items: [
+                {template_content: 'plic'}
+              ],
+              else_block_items: [
+                {template_content: 'Hummm, empty'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each items as |item|}}plic{{else~}}Hummm, empty{{/each}}')).to eq({
           block_items: [
             {
               helper_name: 'each',
@@ -313,10 +595,82 @@ describe RubyHandlebars::Parser do
             }
           ]
         })
+        expect(parser.parse('{{~#if something}}show something else{{/if}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'if',
+              parameters: {parameter_name: 'something'},
+              block_items: [
+                {template_content: 'show something else'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#if something~}}show something else{{/if}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'if',
+              parameters: {parameter_name: 'something'},
+              block_items: [
+                {template_content: 'show something else'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#if something}}show something else{{~/if}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'if',
+              parameters: {parameter_name: 'something'},
+              block_items: [
+                {template_content: 'show something else'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#if something}}show something else{{/if~}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'if',
+              parameters: {parameter_name: 'something'},
+              block_items: [
+                {template_content: 'show something else'}
+              ]
+            }
+          ]
+        })
       end
 
       it 'with an else statement' do
         expect(parser.parse('{{#if something}}Ok{{else}}not ok{{/if}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'if',
+              parameters: {parameter_name: 'something'},
+              block_items: [
+                {template_content: 'Ok'}
+              ],
+              else_block_items: [
+                {template_content: 'not ok'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#if something}}Ok{{~else}}not ok{{/if}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'if',
+              parameters: {parameter_name: 'something'},
+              block_items: [
+                {template_content: 'Ok'}
+              ],
+              else_block_items: [
+                {template_content: 'not ok'}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#if something}}Ok{{else~}}not ok{{/if}}')).to eq({
           block_items: [
             {
               helper_name: 'if',
@@ -400,6 +754,84 @@ describe RubyHandlebars::Parser do
     context 'each block' do
       it 'simple' do
         expect(parser.parse('{{#each people}} {{this.name}} {{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'people'},
+              block_items: [
+                {template_content: ' '},
+                {replaced_unsafe_item: 'this.name'},
+                {template_content: ' '}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{~#each people}} {{this.name}} {{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'people'},
+              block_items: [
+                {template_content: ' '},
+                {replaced_unsafe_item: 'this.name'},
+                {template_content: ' '}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each people~}} {{this.name}} {{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'people'},
+              block_items: [
+                {template_content: ' '},
+                {replaced_unsafe_item: 'this.name'},
+                {template_content: ' '}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each people}} {{this.name}} {{~/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'people'},
+              block_items: [
+                {template_content: ' '},
+                {replaced_unsafe_item: 'this.name'},
+                {template_content: ' '}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each people}} {{this.name}} {{/each~}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'people'},
+              block_items: [
+                {template_content: ' '},
+                {replaced_unsafe_item: 'this.name'},
+                {template_content: ' '}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each people}} {{~this.name}} {{/each}}')).to eq({
+          block_items: [
+            {
+              helper_name: 'each',
+              parameters: {parameter_name: 'people'},
+              block_items: [
+                {template_content: ' '},
+                {replaced_unsafe_item: 'this.name'},
+                {template_content: ' '}
+              ]
+            }
+          ]
+        })
+        expect(parser.parse('{{#each people}} {{this.name~}} {{/each}}')).to eq({
           block_items: [
             {
               helper_name: 'each',
