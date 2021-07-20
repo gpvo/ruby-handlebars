@@ -6,7 +6,16 @@ describe RubyHandlebars::Context do
 
   context 'get' do
     let(:data) { {
-      key_data: 'Some value'
+      key_data: 'Some value',
+      array_data: [
+        { key1: 'array_item0 value1', key2: 'array_item0 value2'},
+        'array_item1',
+        { key1: 'array_item2 value1', key2: 'array_item2 value2'},
+      ],
+      hash_data: {
+        :'item-type' => 'item_type_value'
+      }
+
     } }
 
     before do
@@ -34,6 +43,23 @@ describe RubyHandlebars::Context do
       it 'can also use methods' do
         expect(ctx.get('a_list.first')).to eq('a')
         expect(ctx.get('a_list.last')).to eq('c')
+      end
+
+      context 'can use indexes for arrays' do
+        it 'can access via number' do
+          expect(ctx.get('array_data.1')).to eq('array_item1')
+          expect(ctx.get('array_data.2.key2')).to eq('array_item2 value2')
+        end
+
+        it 'can access via number in square brackets' do
+          expect(ctx.get('array_data.[1]')).to eq('array_item1')
+          expect(ctx.get('array_data.[2].key2')).to eq('array_item2 value2')
+        end
+      end
+
+      it 'uses keys with square brackets' do
+        expect(ctx.get('hash_data.item-type')).to eq('item_type_value')
+        expect(ctx.get('hash_data.[item-type]')).to eq('item_type_value')
       end
     end
   end

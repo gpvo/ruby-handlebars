@@ -13,6 +13,8 @@ module RubyHandlebars
     rule(:pipe)        { str('|')}
     rule(:eq)          { str('=')}
     rule(:tilde)       { str('~')}
+    rule(:osquare)     { str('[')}
+    rule(:csquare)     { str(']')}
 
 
     rule(:docurly)     { ocurly >> ocurly >> tilde.maybe }
@@ -24,8 +26,9 @@ module RubyHandlebars
     rule(:as_kw)       { str('as') }
 
     rule(:identifier)  { (else_kw >> space? >> dccurly).absent? >> match['@\-a-zA-Z0-9_\?'].repeat(1) }
+    rule(:key_ident)   { (else_kw >> space? >> dccurly).absent? >> osquare >> match['@\-a-zA-Z0-9_\?'].repeat(1) >> csquare }
     rule(:directory)   { (else_kw >> space? >> dccurly).absent? >> match['@\-a-zA-Z0-9_\/\?'].repeat(1) }
-    rule(:path)        { identifier >> (dot >> (identifier | else_kw)).repeat }
+    rule(:path)        { identifier >> (dot >> (identifier | else_kw | key_ident)).repeat }
 
     rule(:nocurly)     { match('[^{}]') }
     rule(:eof)         { any.absent? }

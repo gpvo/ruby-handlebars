@@ -64,11 +64,23 @@ module RubyHandlebars
       sym_attr = attribute.to_sym
       str_attr = attribute.to_s
 
-      if item.respond_to?(:[]) && item.respond_to?(:has_key?)
-        if item.has_key?(sym_attr)
-          return item[sym_attr]
-        elsif item.has_key?(str_attr)
-          return item[str_attr]
+      if bracketed = attribute.match(/^\[(?<idx>[@\-a-zA-Z0-9_\?]+)\]$/)
+        brk_attr = bracketed.captures.first
+        sym_attr = brk_attr.to_sym
+        str_attr = brk_attr.to_s
+      end
+
+      if item.respond_to?(:[])
+        if item.respond_to?(:has_key?)
+          if item.has_key?(sym_attr)
+            return item[sym_attr]
+          elsif item.has_key?(str_attr)
+            return item[str_attr]
+          end
+        end
+
+        if str_attr =~ /^\d+$/
+          return item[str_attr.to_i]
         end
       end
 
