@@ -51,6 +51,11 @@ describe RubyHandlebars::Handlebars do
       expect(evaluate('Hello {{first-name}}', double("first-name": 'world'))).to eq('Hello world')
     end
 
+    it 'handles inline else if' do
+      expect(evaluate('{{#if key1}}one{{else if key2}}two{{/if}}', double(key1: '1'))).to eq('one')
+      expect(evaluate('{{#if key1}}one{{else if key2}}two{{/if}}', double(key2: '2'))).to eq('two')
+    end
+
     context 'partials' do
       it 'simple' do
         hbs.register_partial('plic', "Plic")
