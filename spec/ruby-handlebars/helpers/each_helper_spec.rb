@@ -19,7 +19,7 @@ describe RubyHandlebars::Helpers::EachHelper do
     let(:values) { [RubyHandlebars::Tree::String.new('a'), RubyHandlebars::Tree::String.new('b'), RubyHandlebars::Tree::String.new('c') ]}
 
     it 'applies the block on all values' do
-      subject.apply(ctx, values, block, else_block)
+      subject.apply(ctx, values, block, else_block, [])
 
       expect(block).to have_received(:fn).exactly(3).times
       expect(else_block).not_to have_received(:fn)
@@ -29,14 +29,14 @@ describe RubyHandlebars::Helpers::EachHelper do
       let(:values) { nil }
 
       it 'uses the else_block if provided' do
-        subject.apply(ctx, values, block, else_block)
+        subject.apply(ctx, values, block, else_block, [])
 
         expect(block).not_to have_received(:fn)
         expect(else_block).to have_received(:fn).once
       end
 
       it 'returns nil if no else_block is provided' do
-        expect(subject.apply(ctx, values, block, nil)).to be nil
+        expect(subject.apply(ctx, values, block, nil, nil)).to be nil
       end
     end
 
@@ -44,14 +44,14 @@ describe RubyHandlebars::Helpers::EachHelper do
       let(:values) { [] }
 
       it 'uses the else_block if provided' do
-        subject.apply(ctx, values, block, else_block)
+        subject.apply(ctx, values, block, else_block, [])
 
         expect(block).not_to have_received(:fn)
         expect(else_block).to have_received(:fn).once
       end
 
       it 'returns nil if no else_block is provided' do
-        expect(subject.apply(ctx, values, block, nil)).to be nil
+        expect(subject.apply(ctx, values, block, nil, nil)).to be nil
       end
     end
   end

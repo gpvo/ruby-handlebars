@@ -50,13 +50,13 @@ module RubyHandlebars
       end
     end
 
-    class Helper < TreeItem.new(:name, :parameters, :block, :else_block)
+    class Helper < TreeItem.new(:name, :parameters, :block, :else_block, :elsif_block)
       def _eval(context)
         helper = context.get_helper(name.to_s)
         if helper.nil?
           context.get_helper('helperMissing').apply(context, String.new(name.to_s))
         else
-          helper.apply(context, parameters, block, else_block)
+          helper.apply(context, parameters, block, else_block, elsif_block)
         end
       end
     end
@@ -104,6 +104,19 @@ module RubyHandlebars
       end
 
     end
+
+    class IfBlock < TreeItem.new(:parameters, :items)
+      def _eval(context)
+        items.map {|item| item._eval(context) }.join()
+      end
+
+      alias :fn :_eval
+
+      def add_item(i)
+        items << i
+      end
+
+    end
   end
 
   class Transform < Parslet::Transform
@@ -131,8 +144,9 @@ module RubyHandlebars
     rule(
       helper_name: simple(:name),
       block_items: subtree(:block_items),
+      elsif_block_items: subtree(:elsif_block_items),
     ) {
-      Tree::Helper.new(name, [], block_items)
+      Tree::Helper.new(name, [], block_items, [], elsif_block_items)
     }
 
     rule(
@@ -163,6 +177,25 @@ module RubyHandlebars
     rule(
       helper_name: simple(:name),
       parameters: subtree(:parameters),
+      block_items: subtree(:block_items),
+      elsif_block_items: subtree(:elsif_block_items),
+      else_block_items: subtree(:else_block_items)
+    ) {
+      Tree::Helper.new(name, parameters, block_items, else_block_items, elsif_block_items)
+    }
+
+    rule(
+      helper_name: simple(:name),
+      parameters: subtree(:parameters),
+      block_items: subtree(:block_items),
+      elsif_block_items: subtree(:elsif_block_items)
+    ) {
+      Tree::Helper.new(name, parameters, block_items, [], elsif_block_items)
+    }
+
+    rule(
+      helper_name: simple(:name),
+      parameters: subtree(:parameters),
       as_parameters: subtree(:as_parameters),
       block_items: subtree(:block_items),
     ) {
@@ -188,6 +221,12 @@ module RubyHandlebars
 
     rule(partial_name: simple(:partial_name)) {Tree::Partial.new(partial_name)}
     rule(block_items: subtree(:block_items)) {Tree::Block.new(block_items)}
-    rule(else_block_items: subtree(:else_block_items)) {Tree::Block.new(block_items)}
+    rule(else_block_items: subtree(:else_block_items)) { Tree::Block.new(block_items) }
+    rule(
+      parameters: subtree(:parameters),
+      else_block_items: subtree(:else_block_items)
+    ) {
+      Tree::IfBlock.new(parameters, else_block_items)
+    }
   end
 end

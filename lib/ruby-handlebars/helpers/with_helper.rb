@@ -7,7 +7,7 @@ module RubyHandlebars
         'with'
       end
 
-      def self.apply(context, data, block, else_block)
+      def self.apply(context, data, block, else_block, elseif_block = nil)
         if data
           context.with_temporary_context(data) do
             block.fn(context)

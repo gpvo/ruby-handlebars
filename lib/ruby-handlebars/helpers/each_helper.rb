@@ -7,7 +7,7 @@ module RubyHandlebars
         'each'
       end
 
-      def self.apply(context, items, block, else_block)
+      def self.apply(context, items, block, else_block, elseif_block)
         self.apply_as(context, items, :this, block, else_block)
       end
 

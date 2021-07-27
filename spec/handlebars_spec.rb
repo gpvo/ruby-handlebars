@@ -54,6 +54,9 @@ describe RubyHandlebars::Handlebars do
     it 'handles inline else if' do
       expect(evaluate('{{#if key1}}one{{else if key2}}two{{/if}}', double(key1: '1'))).to eq('one')
       expect(evaluate('{{#if key1}}one{{else if key2}}two{{/if}}', double(key2: '2'))).to eq('two')
+      expect(evaluate('{{#if key1}}one{{else if key2}}two{{else}}three{{/if}}', double(key2: '2'))).to eq('two')
+      expect(evaluate('{{#if key1}}one{{else if key2}}two{{else if key3}}three{{/if}}', double(key3: '3'))).to eq('three')
+      expect(evaluate('{{#if key1}}one{{else if key2}}two{{else if key3}}three{{else}}four{{/if}}', double(key4: '3'))).to eq('four')
     end
 
     context 'partials' do

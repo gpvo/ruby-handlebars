@@ -10,7 +10,7 @@ module RubyHandlebars
         'helperMissing'
       end
 
-      def self.apply(context, name, block, else_block)
+      def self.apply(context, name, block, else_block, elsif_block = nil)
         raise(::RubyHandlebars::UnknownHelper, "Helper \"#{name}\" does not exist" )
       end
     end

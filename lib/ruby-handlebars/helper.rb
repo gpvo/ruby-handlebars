@@ -7,9 +7,9 @@ module RubyHandlebars
       @fn = fn
     end
 
-    def apply(context, arguments = [], block = [], else_block = [])
+    def apply(context, arguments = [], block = [], else_block = [], elsif_block = nil)
       arguments = [arguments] unless arguments.is_a? Array
-      args = [context] + arguments.map {|arg| arg.eval(context)} + split_block(block, else_block)
+      args = [context] + arguments.map {|arg| arg.eval(context)} + split_block(block, else_block, elsif_block)
 
       @fn.call(*args)
     end
@@ -24,8 +24,10 @@ module RubyHandlebars
 
     private
 
-    def split_block(block, else_block)
-      if else_block
+    def split_block(block, else_block, elsif_block = [])
+      if elsif_block && !elsif_block.empty?
+        [ensure_block(block), ensure_block(else_block), elsif_block]
+      elsif else_block
         [ensure_block(block), ensure_block(else_block)]
       else
         [ensure_block(block)]

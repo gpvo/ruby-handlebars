@@ -25,9 +25,9 @@ module RubyHandlebars
     rule(:else_kw)     { str('else') }
     rule(:as_kw)       { str('as') }
 
-    rule(:identifier)  { (else_kw >> space? >> dccurly).absent? >> match['@\-a-zA-Z0-9_\?'].repeat(1) }
-    rule(:key_ident)   { (else_kw >> space? >> dccurly).absent? >> osquare >> match['@\-a-zA-Z0-9_\?'].repeat(1) >> csquare }
-    rule(:directory)   { (else_kw >> space? >> dccurly).absent? >> match['@\-a-zA-Z0-9_\/\?'].repeat(1) }
+    rule(:identifier)  { (else_kw >> (space >> str('if') >> space >> parameters.as(:parameters)).maybe >> space? >> dccurly).absent? >> match['@\-a-zA-Z0-9_\?'].repeat(1) }
+    rule(:key_ident)   { (else_kw >> (space >> str('if') >> space >> parameters.as(:parameters)).maybe >> space? >> dccurly).absent? >> osquare >> match['@\-a-zA-Z0-9_\?'].repeat(1) >> csquare }
+    rule(:directory)   { (else_kw >> (space >> str('if') >> space >> parameters.as(:parameters)).maybe >> space? >> dccurly).absent? >> match['@\-a-zA-Z0-9_\/\?'].repeat(1) }
     rule(:path)        { identifier >> (dot >> (identifier | else_kw | key_ident)).repeat }
 
     rule(:nocurly)     { match('[^{}]') }
@@ -95,6 +95,9 @@ module RubyHandlebars
       scope {
         block
       } >>
+      scope {
+        docurly >> space? >> else_kw >> space >> str('if') >> space >> parameters.as(:parameters) >> space? >> dccurly >> scope { block_item.repeat.as(:else_block_items) }
+      }.repeat.as(:elsif_block_items) >>
       scope {
         docurly >> space? >> else_kw >> space? >> dccurly >> scope { block_item.repeat.as(:else_block_items) }
       }.maybe >>

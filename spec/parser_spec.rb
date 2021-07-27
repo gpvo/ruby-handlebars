@@ -302,6 +302,7 @@ describe RubyHandlebars::Parser do
           block_items: [
             {
               helper_name: 'capitalize',
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -312,6 +313,7 @@ describe RubyHandlebars::Parser do
           block_items: [
             {
               helper_name: 'capitalize',
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -322,6 +324,7 @@ describe RubyHandlebars::Parser do
           block_items: [
             {
               helper_name: 'capitalize',
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -332,6 +335,7 @@ describe RubyHandlebars::Parser do
           block_items: [
             {
               helper_name: 'capitalize',
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -342,6 +346,7 @@ describe RubyHandlebars::Parser do
           block_items: [
             {
               helper_name: 'capitalize',
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -356,6 +361,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'comment',
               parameters: {parameter_name: {str_content: '#'}},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -367,6 +373,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'comment',
               parameters: {parameter_name: {str_content: '#'}},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -378,6 +385,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'comment',
               parameters: {parameter_name: {str_content: '#'}},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -389,6 +397,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'comment',
               parameters: {parameter_name: {str_content: '#'}},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -400,6 +409,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'comment',
               parameters: {parameter_name: {str_content: '#'}},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic'}
               ]
@@ -414,10 +424,12 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'comment',
               parameters: {parameter_name: {str_content: '#'}},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'plic '},
                 {
                   helper_name: 'capitalize',
+                  :elsif_block_items=>[],
                   block_items: [{template_content: 'ploc'}]
                 },
                 {template_content: ' plouc'},
@@ -589,6 +601,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'if',
               parameters: {parameter_name: 'something'},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'show something else'}
               ]
@@ -600,6 +613,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'if',
               parameters: {parameter_name: 'something'},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'show something else'}
               ]
@@ -611,6 +625,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'if',
               parameters: {parameter_name: 'something'},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'show something else'}
               ]
@@ -622,6 +637,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'if',
               parameters: {parameter_name: 'something'},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'show something else'}
               ]
@@ -633,6 +649,7 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'if',
               parameters: {parameter_name: 'something'},
+              :elsif_block_items=>[],
               block_items: [
                 {template_content: 'show something else'}
               ]
@@ -650,6 +667,7 @@ describe RubyHandlebars::Parser do
               block_items: [
                 {template_content: 'Ok'}
               ],
+              :elsif_block_items=>[],
               else_block_items: [
                 {template_content: 'not ok'}
               ]
@@ -664,6 +682,7 @@ describe RubyHandlebars::Parser do
               block_items: [
                 {template_content: 'Ok'}
               ],
+              :elsif_block_items=>[],
               else_block_items: [
                 {template_content: 'not ok'}
               ]
@@ -678,6 +697,7 @@ describe RubyHandlebars::Parser do
               block_items: [
                 {template_content: 'Ok'}
               ],
+              :elsif_block_items=>[],
               else_block_items: [
                 {template_content: 'not ok'}
               ]
@@ -692,10 +712,12 @@ describe RubyHandlebars::Parser do
             {
               helper_name: 'if',
               parameters: {parameter_name: 'something'},
+              :elsif_block_items=>[],
               block_items: [
                 {
                   helper_name: 'if',
                   parameters: {parameter_name: 'another_thing'},
+                  :elsif_block_items=>[],
                   block_items: [
                     {template_content: 'Plic'}
                   ]
@@ -717,6 +739,7 @@ describe RubyHandlebars::Parser do
                 {
                   helper_name: "if",
                   parameters: {parameter_name: "another_thing"},
+                  :elsif_block_items=>[],
                   block_items:[
                     {
                       template_content:"Case 1"
@@ -729,10 +752,12 @@ describe RubyHandlebars::Parser do
                   ]
                 }
               ],
+              :elsif_block_items=>[],
               else_block_items: [
                 {
                   helper_name: "if",
                   parameters: {parameter_name: "another_thing"},
+                  :elsif_block_items=>[],
                   block_items:[
                     {
                       template_content:"Case 3"
@@ -762,7 +787,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -775,7 +801,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -788,7 +815,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -801,7 +829,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -814,7 +843,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -827,7 +857,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -840,7 +871,8 @@ describe RubyHandlebars::Parser do
                 {template_content: ' '},
                 {replaced_unsafe_item: 'this.name'},
                 {template_content: ' '}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
@@ -863,10 +895,12 @@ describe RubyHandlebars::Parser do
                     {template_content: ' <li>'},
                     {replaced_unsafe_item: 'this'},
                     {template_content: '</li> '}
-                  ]
+                  ],
+                  :elsif_block_items=>[]
                 },
                 {template_content: '</ul>'}
-              ]
+              ],
+              :elsif_block_items=>[]
             }
           ]
         })
