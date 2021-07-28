@@ -1,3 +1,5 @@
+require 'cgi'
+
 module RubyHandlebars
   module Escapers
     class HTMLEscaper

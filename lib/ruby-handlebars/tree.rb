@@ -86,7 +86,7 @@ module RubyHandlebars
 
     class PartialWithArgs < TreeItem.new(:partial_name, :arguments)
       def _eval(context)
-        [arguments].flatten.map(&:values).map do |vals| 
+        [arguments].flatten.map(&:values).map do |vals|
           context.add_item vals.first.to_s, vals.last._eval(context)
         end
         context.get_partial(partial_name.to_s).call_with_context(context)
@@ -95,7 +95,7 @@ module RubyHandlebars
 
     class Block < TreeItem.new(:items)
       def _eval(context)
-        items.map {|item| item._eval(context)}.join()
+        items.map {|item| item._eval(context) }.join()
       end
       alias :fn :_eval
 
@@ -105,7 +105,7 @@ module RubyHandlebars
 
     end
 
-    class IfBlock < TreeItem.new(:parameters, :items)
+    class IfBlock < TreeItem.new(:name, :parameters, :items)
       def _eval(context)
         items.map {|item| item._eval(context) }.join()
       end
@@ -146,7 +146,7 @@ module RubyHandlebars
       block_items: subtree(:block_items),
       elsif_block_items: subtree(:elsif_block_items),
     ) {
-      Tree::Helper.new(name, [], block_items, [], elsif_block_items)
+      Tree::Helper.new(name, [], block_items, Transform::recompose_elsif_blocks(elsif_block_items, []))
     }
 
     rule(
@@ -181,7 +181,7 @@ module RubyHandlebars
       elsif_block_items: subtree(:elsif_block_items),
       else_block_items: subtree(:else_block_items)
     ) {
-      Tree::Helper.new(name, parameters, block_items, else_block_items, elsif_block_items)
+      Tree::Helper.new(name, parameters, block_items,  Transform::recompose_elsif_blocks(elsif_block_items, else_block_items))
     }
 
     rule(
@@ -190,7 +190,7 @@ module RubyHandlebars
       block_items: subtree(:block_items),
       elsif_block_items: subtree(:elsif_block_items)
     ) {
-      Tree::Helper.new(name, parameters, block_items, [], elsif_block_items)
+      Tree::Helper.new(name, parameters, block_items,  Transform::recompose_elsif_blocks(elsif_block_items, []))
     }
 
     rule(
@@ -211,7 +211,7 @@ module RubyHandlebars
     ) {
       Tree::AsHelper.new(name, parameters, as_parameters, block_items, else_block_items)
     }
-    
+
     rule(
       partial_name: simple(:partial_name),
       arguments: subtree(:arguments)
@@ -223,10 +223,23 @@ module RubyHandlebars
     rule(block_items: subtree(:block_items)) {Tree::Block.new(block_items)}
     rule(else_block_items: subtree(:else_block_items)) { Tree::Block.new(block_items) }
     rule(
+      helper_name: subtree(:helper_name),
       parameters: subtree(:parameters),
       else_block_items: subtree(:else_block_items)
     ) {
-      Tree::IfBlock.new(parameters, else_block_items)
+      Tree::IfBlock.new(helper_name, parameters, else_block_items)
     }
+
+    def self.recompose_elsif_blocks(elsif_block, else_block)
+      return else_block if elsif_block.empty?
+
+      else_blocks = elsif_block.clone.reverse
+
+      next_helper = else_blocks.inject(else_block) do |previous, cur|
+        Tree::Helper.new(cur.name, cur.parameters, cur.items, [previous].flatten)
+      end
+
+      [next_helper]
+    end
   end
 end
